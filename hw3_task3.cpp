@@ -29,10 +29,12 @@ void UserInput(string& text) {
 	cout << "3. How many times the different words appear in the text." << endl << endl;
 	cout << "Enter # to stop!" << endl;
 
-	char entryStop = '#';		// This will be used to stop the input
-	while (true) {
-		getline(cin, text);
-	}
+		getline(cin, text, '#');
+
+}
+
+bool IsDelimiter(char ch) {
+	return (ch == '!' || ch == '@' || ch == '$' || ch == '%' || ch == '^' || ch == '&' || ch == '*' || ch == '\n' || ch == '\t' || ch == ' ' || ch == '.' || ch == ',');
 }
 
 //This function will seprate the whole text word by word
@@ -45,20 +47,19 @@ void SplitText(string text, char ch) {
 	int j = 0;						//Needed to store the words in the array
 
 	//This will be used to save the separate words
-		for (int i = 0; i < text.size(); i++) {
-				if (text[i] != ch) {
-					tempWord += text[i];
+	for (int i = 0; i < text.size(); i++) {
+		if (!IsDelimiter(text[i])) {
+			tempWord += text[i];
 
-				}
-				else {
-					wordArray[j] = tempWord;
-					tempWord = "";
-					j++;
-
-				}
 		}
+		else {
+			wordArray[j] = tempWord;
+			tempWord = "";
+			j++;
+		}
+	}
 
-		for (int a = 0; a < 20; a++) {
-			cout << wordArray[a] << endl;
+	for (int a = 0; a < 20; a++) {
+		cout << wordArray[a] << endl;
 	}
 }
