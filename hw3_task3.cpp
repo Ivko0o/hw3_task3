@@ -7,22 +7,19 @@
 using namespace std;
 
 void UserInput(string& text);
-void SplitText(string text, char ch, string wordsArray[], int& countWords);
+void CountWords(int& countWords, string text);
+void SplitText(string text, string wordsArray[], int& countWords);
 
 int main()
 {
 	string text = "";
-	char ch = ' ';
 	int countWords = 0;
 
-
 	UserInput(text);
-	string* wordsArray = new string[text.size()];		//This creates the array which will be used to store the different words
-	SplitText(text, ch, wordsArray, countWords);
-
-	for (int a = 0; a < countWords; a++) {
-		cout << wordsArray[a] << endl;
-	}
+	CountWords(countWords, text);
+	cout << countWords;
+	string* wordsArray = new string[countWords];		//This creates the array which will be used to store the different words
+	SplitText(text, wordsArray, countWords);
 
 	delete[] wordsArray;
 }
@@ -41,11 +38,34 @@ void UserInput(string& text) {
 }
 
 bool IsDelimiter(char ch) {
-	return (ch == '!' || ch == '@' || ch == '$' || ch == '%' || ch == '^' || ch == '&' || ch == '*' || ch == '\n' || ch == '\t' || ch == ' ' || ch == '.' || ch == ',');
+	return (ch == '?' || ch == '!' || ch == '@' || ch == '$' || ch == '%' || ch == '^' || ch == '&' 
+		|| ch == '*' || ch == '\n' || ch == '\t' || ch == ' ' || ch == '.' || ch == ',' || ch == '\0'
+		);
+}
+
+//This will first calculate the number of words in the text before the array is allocated
+void CountWords(int& countWords, string text) {
+
+	string tempWord = "";
+
+	for (char ch : text) {
+		if (!IsDelimiter(ch)) {
+			tempWord += ch;
+		}
+		else {
+			if (!tempWord.empty()){
+				countWords++;
+				tempWord = "";
+			}
+		}
+	}
+	//This covers the last letter if there is no delimiter
+	if (!tempWord.empty())
+		countWords++;
 }
 
 //This function will seprate the whole text word by word
-void SplitText(string text, char ch, string wordsArray[], int& countWords) {
+void SplitText(string text, string wordsArray[], int& countWords) {
 
 	string tempWord = "";
 
