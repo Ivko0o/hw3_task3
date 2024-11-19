@@ -7,15 +7,22 @@
 using namespace std;
 
 void UserInput(string& text);
-void SplitText(string text, char ch);
+void SplitText(string text, char ch, string wordsArray[], int& countWords);
 
 int main()
 {
 	string text = "";
 	char ch = ' ';
-	string* wordsArray = new string[20000];
+	int countWords = 0;
+
+
 	UserInput(text);
-	SplitText(text, ch);
+	string* wordsArray = new string[text.size()];		//This creates the array which will be used to store the different words
+	SplitText(text, ch, wordsArray, countWords);
+
+	for (int a = 0; a < countWords; a++) {
+		cout << wordsArray[a] << endl;
+	}
 
 	delete[] wordsArray;
 }
@@ -38,13 +45,9 @@ bool IsDelimiter(char ch) {
 }
 
 //This function will seprate the whole text word by word
-void SplitText(string text, char ch) {
+void SplitText(string text, char ch, string wordsArray[], int& countWords) {
 
 	string tempWord = "";
-	int countWords = 0;
-	string wordArray[20];			//This array will store the words
-
-	int j = 0;						//Needed to store the words in the array
 
 	//This will be used to save the separate words
 	for (int i = 0; i < text.size(); i++) {
@@ -53,13 +56,19 @@ void SplitText(string text, char ch) {
 
 		}
 		else {
-			wordArray[j] = tempWord;
-			tempWord = "";
-			j++;
+			if (!tempWord.empty()) {
+				wordsArray[countWords] = tempWord;
+				tempWord = "";
+				countWords++;
+			}
+			else {
+				continue;
+			}
 		}
-	}
 
-	for (int a = 0; a < 20; a++) {
-		cout << wordArray[a] << endl;
+		//This adds the last word of the text to the array
+		if (!tempWord.empty()) {
+			wordsArray[countWords + 1] = tempWord;
+		}
 	}
 }
