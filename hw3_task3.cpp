@@ -17,7 +17,6 @@ int main()
 
 	UserInput(text);
 	CountWords(countWords, text);
-	cout << countWords;
 	string* wordsArray = new string[countWords];		//This creates the array which will be used to store the different words
 	SplitText(text, wordsArray, countWords);
 
@@ -62,6 +61,8 @@ void CountWords(int& countWords, string text) {
 	//This covers the last letter if there is no delimiter
 	if (!tempWord.empty())
 		countWords++;
+
+	cout << "The number of words in the text is: " << countWords;
 }
 
 //This function will seprate the whole text word by word
