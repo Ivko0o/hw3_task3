@@ -7,18 +7,17 @@
 using namespace std;
 
 void UserInput(string& text);
-void CountWords(int& countWords, string text);
-void SplitText(string text, string wordsArray[], int& countWords);
+int CountWords(const string& text);
+void SplitText(const string& text, string wordsArray[]);
 
 int main()
 {
 	string text = "";
-	int countWords = 0;
 
 	UserInput(text);
-	CountWords(countWords, text);
-	string* wordsArray = new string[countWords];		//This creates the array which will be used to store the different words
-	SplitText(text, wordsArray, countWords);
+	int countWords = CountWords(text);						//This function counts the words in the text
+	string* wordsArray = new string[countWords];			//This creates the array which will be used to store the different words
+	SplitText(text, wordsArray);							//This function will seprate the words and save them in the created array
 
 	delete[] wordsArray;
 }
@@ -36,6 +35,7 @@ void UserInput(string& text) {
 
 }
 
+//These symbols will be used as delimiters
 bool IsDelimiter(char ch) {
 	return (ch == '?' || ch == '!' || ch == '@' || ch == '$' || ch == '%' || ch == '^' || ch == '&' 
 		|| ch == '*' || ch == '\n' || ch == '\t' || ch == ' ' || ch == '.' || ch == ',' || ch == '\0'
@@ -43,10 +43,10 @@ bool IsDelimiter(char ch) {
 }
 
 //This will first calculate the number of words in the text before the array is allocated
-void CountWords(int& countWords, string text) {
+int CountWords(const string& text) {
 
 	string tempWord = "";
-
+	int countWords = 0;
 	for (char ch : text) {
 		if (!IsDelimiter(ch)) {
 			tempWord += ch;
@@ -58,38 +58,36 @@ void CountWords(int& countWords, string text) {
 			}
 		}
 	}
-	//This covers the last letter if there is no delimiter
+	//This covers the last word if there is no delimiter after it
 	if (!tempWord.empty())
 		countWords++;
 
 	cout << "The number of words in the text is: " << countWords;
+	return countWords;
 }
 
 //This function will seprate the whole text word by word
-void SplitText(string text, string wordsArray[], int& countWords) {
-
+void SplitText(const string& text, string wordsArray[]) {
 	string tempWord = "";
+	int j = 0;
 
-	//This will be used to save the separate words
-	for (int i = 0; i < text.size(); i++) {
-		if (!IsDelimiter(text[i])) {
-			tempWord += text[i];
-
+	for (char ch : text) {
+		if (!IsDelimiter(ch)) {
+			tempWord += ch;
 		}
 		else {
 			if (!tempWord.empty()) {
-				wordsArray[countWords] = tempWord;
+				wordsArray[j] = tempWord;
 				tempWord = "";
-				countWords++;
+				j++;
 			}
 			else {
 				continue;
 			}
 		}
-
 		//This adds the last word of the text to the array
 		if (!tempWord.empty()) {
-			wordsArray[countWords + 1] = tempWord;
+			wordsArray[j] = tempWord;
 		}
 	}
 }
