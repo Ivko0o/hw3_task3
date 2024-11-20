@@ -9,17 +9,24 @@ using namespace std;
 void UserInput(string& text);
 int CountWords(const string& text);
 void SplitText(const string& text, string wordsArray[]);
+int CountDistinctWords(string wordsArray[], int countWords);
 
 int main()
 {
 	string text = "";
 
 	UserInput(text);
-	int countWords = CountWords(text);						//This function counts the words in the text
-	string* wordsArray = new string[countWords];			//This creates the array which will be used to store the different words
-	SplitText(text, wordsArray);							//This function will seprate the words and save them in the created array
+	int countWords = CountWords(text);										//This function counts the words in the text
+	string* wordsArray = new string[countWords];							//This creates the array which will be used to store the different words
+
+	SplitText(text, wordsArray);
+	
+	int distinctWords = CountDistinctWords(wordsArray, countWords);			//This will be used to create the array with the distinct words
+	string* distinctWordsArray = new string[distinctWords];					//This function will seprate the words and save them in the created array
+
 
 	delete[] wordsArray;
+	delete[] distinctWordsArray;
 }
 
 //This will be used to input the text by the user.
@@ -62,7 +69,7 @@ int CountWords(const string& text) {
 	if (!tempWord.empty())
 		countWords++;
 
-	cout << "The number of words in the text is: " << countWords;
+	cout << "The number of words in the text is: " << countWords << endl;;
 	return countWords;
 }
 
@@ -90,4 +97,33 @@ void SplitText(const string& text, string wordsArray[]) {
 			wordsArray[j] = tempWord;
 		}
 	}
+}
+
+//This function will check how many unique words are there in the text
+int CountDistinctWords(string wordsArray[], int countWords) {
+	
+	int distinctWords = 0;
+	
+	//This iterates through the array to compare the words - e.g - it compares the 2nd word to the 1st word, after that the 3rd to the 2nd and 1st, etc.
+	for (int i = 1; i < countWords; i++) {
+		int j = 0;
+		int iterations = 0;
+
+		while (j != i) {
+			if (wordsArray[i] != wordsArray[j]) {
+				iterations++;
+			}
+			j++;
+		}
+
+		if (iterations == i) {
+			distinctWords++;
+		}
+	}
+
+
+	cout << "The number of distinct words in the text is: " << distinctWords << endl;
+
+	return distinctWords;
+
 }
