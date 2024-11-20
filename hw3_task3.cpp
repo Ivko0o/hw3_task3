@@ -2,7 +2,7 @@
 #include <string>
 #include <new>
 
-//This program will take a random text and count the number of words in it and separate the different numbers by count
+//This program will take a random text and give feedback on the number of words in it and separate the different numbers by count
 
 using namespace std;
 
@@ -17,14 +17,14 @@ int main()
 	string text = "";
 
 	UserInput(text);
+
 	int countWords = CountWords(text);										//This function counts the words in the text
 	string* wordsArray = new string[countWords];							//This creates the array which will be used to store the different words
 
 	SplitText(text, wordsArray);
 	
 	int distinctWords = CountDistinctWords(wordsArray, countWords);			//This will be used to create the array with the distinct words
-	string* distinctWordsArray = new string[distinctWords];					//This function will seprate the words and save them in the created array
-
+	string* distinctWordsArray = new string[distinctWords];     // <---- tova moje i da ne trqbva
 
 	delete[] wordsArray;
 	delete[] distinctWordsArray;
@@ -100,10 +100,10 @@ void SplitText(const string& text, string wordsArray[]) {
 	}
 }
 
-//This function will check how many unique words are there in the text
+//This function will check how many distinct words are there in the text
 int CountDistinctWords(string wordsArray[], int countWords) {
 	
-	int distinctWords = 0;
+	int distinctWords = 1;
 	
 	//This iterates through the array to compare the words - e.g - it compares the 2nd word to the 1st word, after that the 3rd to the 2nd and 1st, etc.
 	for (int i = 1; i < countWords; i++) {
@@ -125,6 +125,12 @@ int CountDistinctWords(string wordsArray[], int countWords) {
 	cout << "The number of distinct words in the text is: " << distinctWords << endl;
 
 	return distinctWords;
+
+}
+
+//This function will seprate the distinct words in an array
+void distinctWords(string wordsArray[], string distinctWordsArray[], int countWords) {
+
 
 }
 
