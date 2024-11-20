@@ -10,6 +10,7 @@ void UserInput(string& text);
 int CountWords(const string& text);
 void SplitText(const string& text, string wordsArray[]);
 int CountDistinctWords(string wordsArray[], int countWords);
+char toLower(char ch);
 
 int main()
 {
@@ -56,7 +57,7 @@ int CountWords(const string& text) {
 	int countWords = 0;
 	for (char ch : text) {
 		if (!IsDelimiter(ch)) {
-			tempWord += ch;
+			tempWord += toLower(ch);
 		}
 		else {
 			if (!tempWord.empty()){
@@ -121,9 +122,16 @@ int CountDistinctWords(string wordsArray[], int countWords) {
 		}
 	}
 
-
 	cout << "The number of distinct words in the text is: " << distinctWords << endl;
 
 	return distinctWords;
 
+}
+
+//This function will make sure that it does make a difference between upper and lower case letters in the text
+char toLower(char ch) {
+	if (ch >= 'A' && ch <= 'Z') {
+		return ch + ('a' - 'A');
+	}
+	return ch;
 }
