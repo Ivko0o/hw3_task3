@@ -11,6 +11,7 @@ int CountWords(const string& text);
 void SplitText(const string& text, string wordsArray[]);
 int CountDistinctWords(string wordsArray[], int countWords);
 void UniqueWord(string wordsArray[], string distinctWordsArray[], int countWords);
+void CountWordAppearance(string wordsArray[], string distinctWordsArray[], int countWords, int distinctWords);
 char toLower(char ch);
 
 int main()
@@ -24,14 +25,12 @@ int main()
 
 	SplitText(text, wordsArray);
 	
-	int distinctWords = CountDistinctWords(wordsArray, countWords);			//This will be used to create the array with the distinct words
-	string* distinctWordsArray = new string[distinctWords];     
+	int numDistinctWords = CountDistinctWords(wordsArray, countWords);			//This will be used to create the array with the distinct words
+	string* distinctWordsArray = new string[numDistinctWords];     
 
 	UniqueWord(wordsArray, distinctWordsArray, countWords);
+	CountWordAppearance(wordsArray, distinctWordsArray, countWords, numDistinctWords);
 
-	for (int i = 0; i < distinctWords; i++) {
-		cout << distinctWordsArray[i] << endl;
-	}
 
 	delete[] wordsArray;
 	delete[] distinctWordsArray;
@@ -166,6 +165,22 @@ void UniqueWord(string wordsArray[], string distinctWordsArray[], int countWords
 	}
 	
 
+}
+
+//This function will cover how many times does a word appear in the given text
+void CountWordAppearance(string wordsArray[], string distinctWordsArray[], int countWords, int distinctWords) {
+
+	for (int i = 0; i < distinctWords; i++) {
+		int count = 0;
+		
+		for (int j = 0; j < countWords; j++) {
+			if (distinctWordsArray[i] == wordsArray[j]) {
+				count++;
+			}
+		}
+
+		cout << distinctWordsArray[i] << " " << count << endl;
+	}
 }
 
 
