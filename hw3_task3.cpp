@@ -10,6 +10,7 @@ void UserInput(string& text);
 int CountWords(const string& text);
 void SplitText(const string& text, string wordsArray[]);
 int CountDistinctWords(string wordsArray[], int countWords);
+void UniqueWord(string wordsArray[], string distinctWordsArray[], int countWords);
 char toLower(char ch);
 
 int main()
@@ -26,6 +27,12 @@ int main()
 	int distinctWords = CountDistinctWords(wordsArray, countWords);			//This will be used to create the array with the distinct words
 	string* distinctWordsArray = new string[distinctWords];     
 
+	UniqueWord(wordsArray, distinctWordsArray, countWords);
+
+	for (int i = 0; i < distinctWords; i++) {
+		cout << distinctWordsArray[i] << endl;
+	}
+
 	delete[] wordsArray;
 	delete[] distinctWordsArray;
 }
@@ -40,6 +47,8 @@ void UserInput(string& text) {
 	cout << "Enter # to stop!" << endl;
 
 		getline(cin, text, '#');
+
+		cout << endl;
 
 }
 
@@ -129,6 +138,35 @@ int CountDistinctWords(string wordsArray[], int countWords) {
 }
 
 //This function will seprate the distinct words in an array
+void UniqueWord(string wordsArray[], string distinctWordsArray[], int countWords) {
+	int k = 0;
+	//This accepts that the first word of the text is distinct
+	distinctWordsArray[k] = wordsArray[0];
+
+	for (int i = 1; i < countWords; i++) {
+
+		bool isDistinct = true;
+		int j = 0;
+
+		while (j != i) {
+
+			if (wordsArray[i] == wordsArray[j]) {
+				isDistinct = false;
+				break;
+			}
+
+			j++;
+		}
+
+
+		if (isDistinct) {
+			++k;
+			distinctWordsArray[k] = wordsArray[i];
+		}
+	}
+	
+
+}
 
 
 //This function will make sure that it does make a difference between upper and lower case letters in the text
