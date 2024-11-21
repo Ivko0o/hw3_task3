@@ -24,7 +24,7 @@ int main()
 	SplitText(text, wordsArray);
 	
 	int distinctWords = CountDistinctWords(wordsArray, countWords);			//This will be used to create the array with the distinct words
-	string* distinctWordsArray = new string[distinctWords];     // <---- tova moje i da ne trqbva
+	string* distinctWordsArray = new string[distinctWords];     
 
 	delete[] wordsArray;
 	delete[] distinctWordsArray;
@@ -81,7 +81,7 @@ void SplitText(const string& text, string wordsArray[]) {
 
 	for (char ch : text) {
 		if (!IsDelimiter(ch)) {
-			tempWord += ch;
+			tempWord += toLower(ch);
 		}
 		else {
 			if (!tempWord.empty()) {
@@ -129,10 +129,7 @@ int CountDistinctWords(string wordsArray[], int countWords) {
 }
 
 //This function will seprate the distinct words in an array
-void distinctWords(string wordsArray[], string distinctWordsArray[], int countWords) {
 
-
-}
 
 //This function will make sure that it does make a difference between upper and lower case letters in the text
 char toLower(char ch) {
