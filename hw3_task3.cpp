@@ -130,7 +130,7 @@ int CountDistinctWords(string wordsArray[], int countWords) {
 		}
 	}
 
-	cout << "The number of distinct words in the text is: " << distinctWords << endl;
+	cout << "The number of distinct words in the text is: " << distinctWords << endl << endl;
 
 	return distinctWords;
 
@@ -170,17 +170,43 @@ void UniqueWord(string wordsArray[], string distinctWordsArray[], int countWords
 //This function will cover how many times does a word appear in the given text
 void CountWordAppearance(string wordsArray[], string distinctWordsArray[], int countWords, int distinctWords) {
 
+	// Dynamically allocate an array to store counts of each distinct word
+	int* wordCounts = new int[distinctWords];
+
+	// Count the occurrences of each distinct word
 	for (int i = 0; i < distinctWords; i++) {
-		int count = 0;
-		
+		wordCounts[i] = 0;
 		for (int j = 0; j < countWords; j++) {
 			if (distinctWordsArray[i] == wordsArray[j]) {
-				count++;
+				wordCounts[i]++;
 			}
 		}
-
-		cout << distinctWordsArray[i] << " " << count << endl;
 	}
+
+	// Sort the distinctWordsArray and wordCounts based on count and then alphabetically
+	for (int i = 0; i < distinctWords - 1; i++) {
+		for (int j = i + 1; j < distinctWords; j++) {
+			// Sort by count in descending order
+			if (wordCounts[i] < wordCounts[j] ||
+				(wordCounts[i] == wordCounts[j] && distinctWordsArray[i] > distinctWordsArray[j])) {
+				// Swap counts
+				int tempCount = wordCounts[i];
+				wordCounts[i] = wordCounts[j];
+				wordCounts[j] = tempCount;
+
+				// Swap corresponding words
+				string tempWord = distinctWordsArray[i];
+				distinctWordsArray[i] = distinctWordsArray[j];
+				distinctWordsArray[j] = tempWord;
+			}
+		}
+	}
+
+	for (int i = 0; i < distinctWords; i++) {
+		cout << distinctWordsArray[i] << " " << wordCounts[i] << endl;
+	}
+
+	delete[] wordCounts;
 }
 
 
